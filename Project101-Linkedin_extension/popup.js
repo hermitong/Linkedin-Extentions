@@ -76,14 +76,27 @@ function handleScrapeButtonClick() {
 }
 
 function handleDownloadButtonClick() {
-  chrome.runtime.sendMessage({action: 'downloadCSV'}, (response) => {
+  chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
     if (chrome.runtime.lastError) {
-      console.error("Runtime error:", chrome.runtime.lastError);
-    } else if (response && response.status === 'success') {
-      console.log("CSV file download initiated");
-    } else {
-      console.error("Failed to initiate CSV file download:", response ? response.message : "Unknown error");
+      console.error("Error querying tabs:", chrome.runtime.lastError);
+      return;
     }
+
+    const activeTab = tabs[0];
+    if (!activeTab) {
+      console.error("No active tab found");
+      return;
+    }
+
+    chrome.tabs.sendMessage(activeTab.id, {action: 'downloadCSV'}, (response) => {
+      if (chrome.runtime.lastError) {
+        console.error("Runtime error:", chrome.runtime.lastError);
+      } else if (response && response.status === 'success') {
+        console.log("CSV file download initiated");
+      } else {
+        console.error("Failed to initiate CSV file download:", response ? response.message : "Unknown error");
+      }
+    });
   });
 }
 
