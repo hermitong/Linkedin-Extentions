@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>LinkedIn 职位爬取器</title>
+  <style>
+    body {
+      width: 300px;
+      padding: 10px;
+      font-family: Arial, sans-serif;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+    }
+    #progress, #status {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>LinkedIn 职位爬取器</h1>
+  <button id="scrapeButton">爬取当前页面职位信息</button>
+  <div id="progress" style="display: none;">
+    <progress id="progressBar" value="0" max="100"></progress>
+    <span id="progressText">0%</span>
+  </div>
+  <div id="status"></div>
+  <button id="downloadButton" style="display: none;">下载 CSV 文件</button>
+  <script src="popup.js"></script>
+</body>
+</html>
